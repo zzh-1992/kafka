@@ -1,0 +1,54 @@
+http://kafka.apache.org/documentation/#producerapi
+http://kafka.apache.org/26/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html
+http://kafka.apache.org/26/javadoc/index.html?org/apache/kafka/clients/consumer/KafkaConsumer.html
+
+/usr/local/kafka-2.6.0-src/logs
+
+
+/usr/local/kafka_2.13-2.6.0/logs
+
+start kafka
+./bin/kafka-server-start.sh -daemon ./config/server.properties
+
+create topic
+./bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic grapefruit
+$ bin/kafka-topics.sh --create --topic grapefruit --bootstrap-server localhost:9092
+
+show topics
+./bin/kafka-topics.sh --list --bootstrap-server localhost:9092
+
+describe topic
+bin/kafka-topics.sh --describe --topic grapefruit --bootstrap-server localhost:9092
+
+create provider
+./bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic grapefruit
+bin/kafka-console-producer.sh --topic grapefruit --bootstrap-server localhost:9092
+
+create consumer
+./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic grapefruit
+bin/kafka-console-consumer.sh --topic grapefruit --from-beginning --bootstrap-server localhost:9092
+
+/usr/local/
+
+/usr/local/kafka_2.13-2.6.0/bin/kafka-server-start.sh -daemon /usr/local/kafka_2.13-2.6.0/config/server.properties
+
+
+kafka.sh
+
+#!/bin/bash
+
+case $1 in
+"start"){
+    for i in k1 k2 k3
+    do
+        echo "------------$i------------"
+        ssh $i "/usr/local/kafka_2.13-2.6.0/bin/kafka-server-start.sh -daemon /usr/local/kafka_2.13-2.6.0/config/server.properties"
+    done
+};;
+"stop"){
+    for i in k1 k2 k3
+    do
+        echo "------------$i------------"
+        ssh $i "/usr/local/kafka_2.13-2.6.0/bin/kafka-server-stop.sh /usr/local/kafka_2.13-2.6.0/config/server.properties"
+    done
+};;
