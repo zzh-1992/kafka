@@ -23,3 +23,5 @@ public class p {
         producer.close();
     }
 }
+
+// nothing
