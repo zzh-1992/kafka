@@ -18,7 +18,7 @@ public class p {
         //for (int i = 0; i < 100; i++)
         //producer.send(new ProducerRecord<String, String>("grapefruit", "Hello", Integer.toString(i) + "====="));
 
-        producer.send(new ProducerRecord<String, String>("grapefruit", "Hello", "consumer a msg" ));
+        producer.send(new ProducerRecord<String, String>("grapefruit", "Hello", "consumer a msg===2========" ));
 
         producer.close();
     }
