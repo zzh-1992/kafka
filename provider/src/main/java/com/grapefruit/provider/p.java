@@ -7,6 +7,10 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import java.util.Properties;
 
 public class p {
+
+    // 官网"生产者"链接 http://kafka.apache.org/documentation/#producerapi
+    // api(java代码) http://kafka.apache.org/26/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html
+
     public static void main(String[] args) {
         Properties props = new Properties();
         props.put("bootstrap.servers", "localhost:9092");

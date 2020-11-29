@@ -15,6 +15,9 @@ import java.util.Properties;
 
 public class C {
 
+    // 官网"消费者"链接 http://kafka.apache.org/documentation/#consumerapi
+    // api(java代码) http://kafka.apache.org/26/javadoc/index.html?org/apache/kafka/clients/consumer/KafkaConsumer.html
+
     private final static Logger debugLogger = LoggerFactory.getLogger("debug");
     private final static Logger errorLogger = LoggerFactory.getLogger("error");
     public static void main(String[] args) throws IOException {
