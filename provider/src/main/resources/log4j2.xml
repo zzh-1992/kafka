@@ -24,41 +24,8 @@
             <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
         </console>
 
-        <!--文件会打印出所有信息，这个log每次运行程序会自动清空，由append属性决定，适合临时测试用-->
-        <!--<File name="DebugAppender" fileName="/Volumes/CentOS-8-2-/kafka/ConsumerLog.log" append="false">
-            <PatternLayout pattern="${LOG_PATTERN}"/>
-        </File>-->
-
-        <!-- 这个会打印出所有的info及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
-        <!--<RollingFile name="RollingFileInfo" fileName="${FILE_PATH}/info.log" filePattern="${FILE_PATH}/${FILE_NAME}-INFO-%d{yyyy-MM-dd}_%i.log.gz">
-            &lt;!&ndash;控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）&ndash;&gt;
-            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="${LOG_PATTERN}"/>
-            <Policies>
-                &lt;!&ndash;interval属性用来指定多久滚动一次，默认是1 hour&ndash;&gt;
-                <TimeBasedTriggeringPolicy interval="1"/>
-                <SizeBasedTriggeringPolicy size="10MB"/>
-            </Policies>
-            &lt;!&ndash; DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件开始覆盖&ndash;&gt;
-            <DefaultRolloverStrategy max="15"/>
-        </RollingFile>-->
-
-        <!-- 这个会打印出所有的warn及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
-        <RollingFile name="ErrorAppender" fileName="${Logger_Path}/error.log" filePattern="${FILE_NAME}-error-%d{yyyy-MM-dd}_%i.log.gz">
-            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
-            <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="${LOG_PATTERN}"/>
-            <Policies>
-                <!--interval属性用来指定多久滚动一次，默认是1 hour-->
-                <TimeBasedTriggeringPolicy interval="1"/>
-                <SizeBasedTriggeringPolicy size="10MB"/>
-            </Policies>
-            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件开始覆盖-->
-            <DefaultRolloverStrategy max="15"/>
-        </RollingFile>
-
         <!-- 这个会打印出所有的error及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
-        <RollingFile name="DebugAppender" fileName="${Logger_Path}/debug.log" filePattern="${FILE_NAME}-debug-%d{yyyy-MM-dd}_%i.log.gz">
+        <RollingFile name="PushAppender" fileName="${Logger_Path}/push.log" filePattern="${FILE_NAME}-debug-%d{yyyy-MM-dd}_%i.log.gz">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="${LOG_PATTERN}"/>
@@ -83,13 +50,8 @@
         </logger>-->
         <!--监控系统信息-->
         <!--若是additivity设为false，则 子Logger 只会在自己的appender里输出，而不会在 父Logger 的appender里输出。-->
-        <Logger name="DebugLogger" level="trace" additivity="true">
-            <AppenderRef ref="DebugAppender"/>  <!--日志信息输出到文件-->
-        </Logger>
-
-        <Logger name="ErrorLogger" level="trace" additivity="true">
-            <AppenderRef ref="ErrorAppender"/>  <!--日志信息输出到文件-->
-            <!--<appender-ref ref="Console"/>--> <!--日志信息输出到控制台,需要控制台输出就放开该行注释-->
+        <Logger name="PushDebugLogger" level="trace" additivity="false">
+            <AppenderRef ref="PushAppender"/>  <!--日志信息输出到文件-->
         </Logger>
 
         <!--<root level="info">

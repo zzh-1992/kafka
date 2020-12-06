@@ -1,0 +1,28 @@
+2.1Kafka的基本组成
+    Broker
+        一台Kafka服务器就是一个Broker，一个集群由多个Broker组成。一个Broker可以容纳多个topic，Broker和Broker之间没有master和standby的
+        概念，他们之间的地位基本是平等的。
+    Topic
+        每条发送到Kafka集群的消息都属于某个主题，这个主题就被称为Topic。物理上不同Topic的消息分开存储，逻辑上一个Topic的消息虽然保存在一个或
+        多个Broker上，但是用户只需要指定消息的主题Topic既可以生产或消费数据而不需要去关心数据存放在何处。
+    Partition
+        为了实现可扩展性，一个非常大的Topic可以被分为多个Partition，从而分布到多台Broker上。Partition中的每条消息都会被分配一个
+        自增ID（Offest）。Kafka只保证按一个Partition中的顺序将消息发送给消费者，但是不保证单个Topic中的多个Partition之间的顺序。
+    Offest
+        消息在Topic的Partition中的位置，同一个Partition中的消息随着消息的写入，其对应的Offest也自增。
+    Replica
+        副本。Topic的Partition含有N个Replica，N为副本因子。其中一个一个Replica为Leader，其他都为Follower，Leader处理Partition的所有
+        读写请求，于此同时，Follower会定期地去同步Leader上的数据。
+    Message
+        消息，是通信的基本单位。每个Producer可以向一个Topic（主题）发布一些消息。
+    Producer
+        消息生产者，即将消息发布到指定的Topic中，同时Producer也能决定此消息所属的Partition：比如基于Round-Robin（轮询）或是Hash（哈希）。
+    Consumer
+        消息消费者，即向指定的Topic获取消息，根据指定Topic的分区索引及其对应分区上的消息偏移量来获取消息。
+    Zookeeper
+        存放Kafka集群相关元数据的组建。在Zookeeper集群中会保存Topic的状态信息，例如分区的个数，分区的组成，分区的分布情况等；保存Broker的
+        状态信息；保存消费者的消费信息等。通过这些信息，Kafka很好地将消息生产、消息存储、消息消费的过程结合起来。
+    Consumer Group
+        消费者组 每个Consumer属于一个ConsumerGroup；反过来，每个ConsumerGroup中可以包含多个Consumer。如果所有的Consumer都具有
+        相同的ConsumerGroup，那么消息将会在Consumer之间进行负载均衡。也就是说一个Partition中的消息只会被ConsumerGroup中的某个Consumer
+        消费，每个ConsumerGroup消费消息是相互独立的。如果所有的Consumer都具有不同的ConsumerGroup，则消息将会被广播给所有的Consumer。

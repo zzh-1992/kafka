@@ -3,6 +3,7 @@ package com.grapefruit.consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.header.Headers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,16 +19,16 @@ public class C {
     // 官网"消费者"链接 http://kafka.apache.org/documentation/#consumerapi
     // api(java代码) http://kafka.apache.org/26/javadoc/index.html?org/apache/kafka/clients/consumer/KafkaConsumer.html
 
-    private final static Logger debugLogger = LoggerFactory.getLogger("debug");
-    private final static Logger errorLogger = LoggerFactory.getLogger("error");
-    public static void main(String[] args) throws IOException {
+    private final static Logger debugLogger = LoggerFactory.getLogger("DebugLogger");
+    private final static Logger errorLogger = LoggerFactory.getLogger("ErrorLogger");
+    public static void main(String[] args) {
 
         //FileOutputStream fs = new FileOutputStream("ConsumerLog",true);
 
         Properties props = new Properties();
         props.setProperty("bootstrap.servers", "localhost:9092");
         props.setProperty("group.id", "test");
-        props.setProperty("enable.auto.commit", "true");
+        props.setProperty("enable.auto.commit", "false");
         props.setProperty("auto.commit.interval.ms", "1000");
         props.setProperty("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         props.setProperty("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
@@ -36,12 +37,16 @@ public class C {
         while (true) {
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
             for (ConsumerRecord<String, String> record : records) {
-                System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
+                //System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
                 String s = new SimpleDateFormat("yyy/MM/dd HH:mm:ss").format(new Date()) + " offset:" +  record.offset() + " key:" + record.key() + " value:" +  record.value();
 
+                //Headers headers = record.headers();
                 debugLogger.debug("offset = {}, key = {}, value = {}", record.offset(), record.key(), record.value());
-                errorLogger.debug("error msg, offset = {}, key = {}, value = {}", record.offset(), record.key(), record.value());
-                errorLogger.info("info msg, offset = {}, key = {}, value = {}", record.offset(), record.key(), record.value());
+                //errorLogger.debug("msg, offset = {}, key = {}, value = {}", record.offset(), record.key(), record.value());
+                //errorLogger.warn("msg !!!! {}",record.value());
+                //errorLogger.info("msg, offset = {}, key = {}, value = {}", record.offset(), record.key(), record.value());
+
+                //consumer.commitSync();
                 //fs.write(s.getBytes());
             }
         }
