@@ -1,6 +1,6 @@
 package com.grapefruit.zzh.receiver;
 
-import com.grapefruit.zzh.log.LogTools;
+import com.grapefruit.utils.log.LogTools;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -72,7 +72,6 @@ public class KafkaContext implements ApplicationContextAware {
                     Class<?> aClass = parameterTypes[parameterTypes.length - 1];
                     //method.invoke(bean,record.topic(), aClass.cast(record.value()));
                     handleReceive(method, bean, record, aClass);
-
                 }
             }
         }).start();
@@ -88,9 +87,11 @@ public class KafkaContext implements ApplicationContextAware {
      */
     public void handleReceive(Method method, Object bean, ConsumerRecord<String, String> record, Class<?> aClass) {
         try {
-            Object cast = aClass.cast(record.value());
-            method.invoke(bean, record.topic(), cast);
-            receiveLogger.debug("context receive msg:{}", cast);
+            Object message = aClass.cast(record.value());
+            String key = record.key();
+            String topic = record.topic();
+            method.invoke(bean, topic, key, message);
+            receiveLogger.debug("context receive msg:{}", message);
 
             consumer.commitAsync();
         } catch (IllegalAccessException | InvocationTargetException e) {

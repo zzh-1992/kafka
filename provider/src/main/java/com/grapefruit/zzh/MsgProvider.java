@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
+
 /**
  * kafka消息提供者
  *
@@ -21,8 +23,8 @@ public class MsgProvider {
     @Autowired
     KafkaSender sender;
 
-    @RequestMapping("{send}")
-    public String index(String msg) {
+    @RequestMapping("/send")
+    public String index(@PathParam("msg") String msg) {
         return sender.send(msg);
     }
 }

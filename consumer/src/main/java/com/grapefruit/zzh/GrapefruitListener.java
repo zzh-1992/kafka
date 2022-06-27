@@ -1,6 +1,6 @@
 package com.grapefruit.zzh;
 
-import com.grapefruit.zzh.log.LogTools;
+import com.grapefruit.utils.log.LogTools;
 import com.grapefruit.zzh.receiver.KafkaListener;
 import com.grapefruit.zzh.receiver.KafkaMapping;
 import org.slf4j.Logger;
@@ -24,7 +24,7 @@ public class GrapefruitListener {
 
     @KafkaMapping(topic = "grapefruit")
     @GetMapping("/onMessage")
-    public void onMessage(String key, String msg) {
-        log.debug("receive msg:{}", msg);
+    public void onMessage(String topic, String key, String message) {
+        log.debug("receive key:{}, msg:{}", key, message);
     }
 }
