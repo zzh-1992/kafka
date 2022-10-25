@@ -1,7 +1,10 @@
+/*
+ *Copyright @2022 Grapefruit. All rights reserved.
+ */
 
 package com.grapefruit.zzh.sender;
 
-import com.grapefruit.zzh.log.LogTools;
+import com.grapefruit.utils.log.LogTools;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
