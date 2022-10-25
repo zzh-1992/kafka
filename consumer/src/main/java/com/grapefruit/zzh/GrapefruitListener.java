@@ -26,5 +26,6 @@ public class GrapefruitListener {
     @GetMapping("/onMessage")
     public void onMessage(String topic, String key, String message) {
         log.debug("receive key:{}, msg:{}", key, message);
+        System.out.println("receive msg:" + message);
     }
 }
