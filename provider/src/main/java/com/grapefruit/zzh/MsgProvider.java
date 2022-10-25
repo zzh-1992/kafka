@@ -1,3 +1,7 @@
+/*
+ *Copyright @2022 Grapefruit. All rights reserved.
+ */
+
 package com.grapefruit.zzh;
 
 import com.grapefruit.zzh.sender.KafkaSender;

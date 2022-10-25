@@ -1,3 +1,7 @@
+/*
+ *Copyright @2022 Grapefruit. All rights reserved.
+ */
+
 package com.grapefruit.provider;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -6,6 +10,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -31,14 +37,34 @@ public class p {
 
         ThreadPoolExecutor executor = new ThreadPoolExecutor(10,10,60, TimeUnit.SECONDS,new ArrayBlockingQueue<>(10));
 
-        for(int i = 0;i < 10;i++) {
-            executor.execute(() -> {
-                String msg = Thread.currentThread().getName() + ":sent a msg=======";
-                producer.send(new ProducerRecord<>("grapefruit", "5353", msg));
-                debugLogger.info(Thread.currentThread().getName() + ":sent a msg=======");
-            });
+        String msg = "LiuYang,female,20\n" +
+                "YuanJing,male,10\n" +
+                "CaiXuyu,female,50\n" +
+                "FangBo,female,50\n" +
+                "GuoYijun,male,5\n" +
+                "CaiXuyu,female,50\n" +
+                "Liyuan,male,20\n" +
+                "CaiXuyu,female,50\n" +
+                "FangBo,female,50\n" +
+                "LiuYang,female,20\n" +
+                "YuanJing,male,10\n" +
+                "FangBo,female,50\n" +
+                "GuoYijun,male,50\n" +
+                "CaiXuyu,female,50\n" +
+                "FangBo,female,60";
+        List<String> msgList = Arrays.asList(msg.split("\n"));
+
+        for (int j = 0; j < 3; j++) {
+            for(int i = 0;i < msgList.size();i++) {
+                int finalI = i;
+                executor.execute(() -> {
+                    //String msg = Thread.currentThread().getName() + ":sent a msg=======";
+                    producer.send(new ProducerRecord<>("grapefruit", "5353", msgList.get(finalI)));
+                    //debugLogger.info(Thread.currentThread().getName() + ":sent a msg=======");
+                });
+            }
+            Thread.sleep(1000);
         }
-        Thread.sleep(1000);
         executor.shutdown();
         producer.close();
     }

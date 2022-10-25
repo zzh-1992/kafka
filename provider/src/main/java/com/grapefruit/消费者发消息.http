@@ -1,0 +1,4 @@
+
+
+
+GET 127.0.0.1:8888/send?msg=LiuYang,female,20\nYuanJing,male,10\nGuoYijun,male,5\nCaiXuyu,female,50\nLiyuan,male,20\nFangBo,female,50 LiuYang,female,20\nYuanJing,male,10 GuoYijun,male,50\nCaiXuyu,female,50\nFangBo,female,60
