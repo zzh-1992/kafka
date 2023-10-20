@@ -22,7 +22,7 @@ https://education.huaweicloud.com/courses/course-v1:HuaweiX+CBUCNXE195+Self-pace
 
 # 2  Kafka架构与功能
 ## 2.1 Kafka拓扑结构图
-## 2.2 Kafka基本概念
+## 2.2 Kafka基本概念 Kafka basic concepts
 - Broker：Kafka集群包含一个或多个服务实例，这些服务实例被称为Broker。
 - Topic：每条发布到Kafka集群到消息都有一个类别，这个类别被称为Topic。
 - Partition：Kafka将Topic分成一个或者多个Partition，每个Patition在物理上对应一个文件夹，该文件夹下存储这个partition的所有消息。
@@ -98,10 +98,11 @@ https://education.huaweicloud.com/courses/course-v1:HuaweiX+CBUCNXE195+Self-pace
 - 这种机制开销非常低：每批消息只有几个额外的字段。
 
 ## 可靠性保证-acks机制
--producer需要server接收到数据之后发出确认接收到信号，此项配置就是指procuder需要多少个这样确认信号。此配置实际上代表了数据备份到可用性。以下配置为常用选项：
-acks = 0:设置为0表示produder不需要等待任何确认收到的信息。副本立即驾到socket buffer并认为已经发送。没有任何保障可以保证此种情况下server已经成功jie shou 数据，同时重试配置不会发生作用（因为客户端不知道是否失败）回馈的offest 会总是设置为-1；
-acks = 1:这意味着至少要等待leader已经成功将数据写入本地log，但是并没有等待所有的follower是否成功写入。这种情况下，如果follower没有成功备份数据，而此时leader又挂掉，则消息会丢失。
-acks = all 这意味着leader需要等待所有备份都写入日志，这种策略会保证只要有一个备份存活就不会丢失数据。这是最强的保证。
+producer需要server接收到数据之后发出确认接收到信号，此项配置就是指procuder需要多少个这样确认信号。此配置实际上代表了数据备份到可用性。以下配置为常用选项：
+
+- acks = 0:设置为0表示produder不需要等待任何确认收到的信息。副本立即驾到socket buffer并认为已经发送。没有任何保障可以保证此种情况下server已经成功接收数据，同时重试配置不会发生作用（因为客户端不知道是否失败）回馈的offest 会总是设置为-1；
+- acks = 1:这意味着至少要等待leader已经成功将数据写入本地log，但是并没有等待所有的follower是否成功写入。这种情况下，如果follower没有成功备份数据，而此时leader又挂掉，则消息会丢失。
+- acks = all 这意味着leader需要等待所有备份都写入日志，这种策略会保证只要有一个备份存活就不会丢失数据。这是最强的保证。
 
 ## 旧数据处理方式
 - Kafka把Topic中的一个Partition大文件分成多个小文件，通过多个小文件段，就容易定期清楚或删除已经消费完文件，减少磁盘占用。
@@ -116,7 +117,6 @@ acks = all 这意味着leader需要等待所有备份都写入日志，这种策
 | Log.cleanup.policy  | Delete | 当日志过期时（超过了要保存的时间），采用的清除策略，可以取值为删除或者压缩。   | Delete/compact         |
 | Log.retention.hours | 168    | 日志数据文件保留的最长时间。单位：小时。                     | 1~2147483647           |
 | Log.retention.bytes | 1      | 指定每个partition上的日志数据所能达到的最大字节。默认情况下无限制。单位：字节。 | -1~9223372036854775807 |
-
 
 
 
